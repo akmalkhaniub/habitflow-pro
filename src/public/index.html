@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HabitFlow Pro — Adaptive AI Habit & Flow Coach (RevenueCat)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50: '#ecfdf5', 500: '#10b981', 600: '#059669', 700: '#047857' },
+            accent: { 500: '#8b5cf6', 600: '#7c3aed' }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-emerald-500 selection:text-black">
+
+  <!-- Navigation Bar -->
+  <header class="border-b border-slate-800/80 bg-slate-900/60 backdrop-blur sticky top-0 z-30">
+    <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-300 flex items-center justify-center text-slate-950 shadow-lg shadow-emerald-500/20">
+          <i class="fa-solid fa-fire text-lg font-black"></i>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="font-extrabold text-lg tracking-tight">HabitFlow</span>
+            <span id="navTierBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">FREE TIER</span>
+          </div>
+          <p class="text-xs text-slate-400">Powered by RevenueCat Paywalls v2 & AI Coach</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <button id="btnCustomerCenter" class="text-xs font-semibold px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 transition flex items-center space-x-1.5 text-slate-300">
+          <i class="fa-solid fa-user-gear text-emerald-400"></i>
+          <span>Customer Center</span>
+        </button>
+        <button id="btnUpgradeNav" class="text-xs font-bold px-4 py-2 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-400 hover:opacity-90 text-slate-950 shadow-lg shadow-emerald-500/20 transition flex items-center space-x-1.5">
+          <i class="fa-solid fa-crown text-xs"></i>
+          <span>Upgrade to Pro</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-5xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+
+    <!-- Habits Column (2 cols) -->
+    <div class="md:col-span-2 space-y-6">
+      
+      <!-- Tier Usage Banner -->
+      <div class="p-4 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-slate-800/80 border border-slate-800 flex items-center justify-between">
+        <div>
+          <span class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Active Routines</span>
+          <div class="text-xl font-bold mt-0.5 flex items-center space-x-2">
+            <span id="habitCountDisplay">2 / 3 habits</span>
+            <span id="habitUsageNotice" class="text-xs font-normal text-amber-400">(Free limit: 3)</span>
+          </div>
+        </div>
+        <button id="btnOpenAddModal" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center space-x-2 transition shadow-lg shadow-emerald-600/20">
+          <i class="fa-solid fa-plus"></i>
+          <span>Add New Habit</span>
+        </button>
+      </div>
+
+      <!-- Habit Cards List -->
+      <div id="habitList" class="space-y-3">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+
+    <!-- AI Coach & Subscriptions Sidebar (1 col) -->
+    <div class="space-y-6">
+      
+      <!-- AI Routine Coach Widget -->
+      <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 relative overflow-hidden">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center space-x-2">
+            <div class="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center">
+              <i class="fa-solid fa-wand-magic-sparkles text-sm"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-sm">AI Habit Coach</h3>
+              <p class="text-[11px] text-slate-400">Behavioral Stacking</p>
+            </div>
+          </div>
+          <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-purple-950/60 border border-purple-800/60 text-purple-400">PRO</span>
+        </div>
+
+        <div id="aiCoachContainer" class="space-y-3">
+          <!-- Injected via JS (locked or unlocked) -->
+        </div>
+      </div>
+
+      <!-- Monetization Architecture Callout -->
+      <div class="p-4 rounded-2xl bg-slate-900/50 border border-slate-800/80 text-xs text-slate-400 space-y-2">
+        <div class="flex items-center space-x-2 text-slate-300 font-semibold text-xs">
+          <i class="fa-brands fa-apple text-sm"></i>
+          <i class="fa-brands fa-google-play text-sm"></i>
+          <i class="fa-brands fa-stripe text-sm"></i>
+          <span>RevenueCat Unified Engine</span>
+        </div>
+        <p class="text-[11px] leading-relaxed">
+          Cross-platform entitlements synchronized across iOS, Android, and Web Billing with dynamic Paywalls v2 and webhook lifecycles.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- REVENUECAT PAYWALL V2 MODAL -->
+  <div id="paywallModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-700/80 rounded-3xl max-w-lg w-full p-6 shadow-2xl relative">
+      
+      <!-- Close Button (triggers exit offer on first attempt) -->
+      <button id="btnClosePaywall" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <!-- Countdown Banner -->
+      <div class="mb-4 inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
+        <i class="fa-solid fa-clock text-[10px] animate-pulse"></i>
+        <span>SPECIAL OFFER ENDS IN: <strong id="paywallCountdown">23:59:59</strong></span>
+      </div>
+
+      <h2 class="text-2xl font-black text-white tracking-tight">Unlock Peak Performance</h2>
+      <p class="text-xs text-slate-400 mt-1 mb-5">Unlimited habits, adaptive AI behavioral coaching, and burnout prevention.</p>
+
+      <!-- Offerings / Package Selector -->
+      <div class="space-y-3 mb-6">
+        <!-- Annual Plan (Default selected) -->
+        <label class="cursor-pointer block border-2 border-emerald-500 bg-emerald-950/20 p-4 rounded-2xl relative transition hover:border-emerald-400">
+          <input type="radio" name="rc_package" value="$rc_annual" checked class="hidden">
+          <span class="absolute -top-2.5 right-4 bg-emerald-500 text-slate-950 font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider">Most Popular • Save 33%</span>
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="font-bold text-sm text-white">Annual Pro Membership</div>
+              <div class="text-xs text-emerald-400 font-medium">7 Days Free Trial, then $39.99/year</div>
+            </div>
+            <div class="text-right">
+              <span class="text-xl font-black text-white">$3.33</span>
+              <span class="text-xs text-slate-400">/mo</span>
+            </div>
+          </div>
+        </label>
+
+        <!-- Monthly Plan -->
+        <label class="cursor-pointer block border border-slate-700 bg-slate-900/60 p-4 rounded-2xl transition hover:border-slate-500">
+          <input type="radio" name="rc_package" value="$rc_monthly" class="hidden">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="font-bold text-sm text-white">Monthly Pro</div>
+              <div class="text-xs text-slate-400">Billed monthly, cancel anytime</div>
+            </div>
+            <div class="text-right">
+              <span class="text-xl font-black text-white">$4.99</span>
+              <span class="text-xs text-slate-400">/mo</span>
+            </div>
+          </div>
+        </label>
+
+        <!-- Lifetime Plan -->
+        <label class="cursor-pointer block border border-slate-700 bg-slate-900/60 p-4 rounded-2xl transition hover:border-slate-500">
+          <input type="radio" name="rc_package" value="$rc_lifetime" class="hidden">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="font-bold text-sm text-white">Lifetime Founder Access</div>
+              <div class="text-xs text-slate-400">One-time payment, all future updates</div>
+            </div>
+            <div class="text-right">
+              <span class="text-xl font-black text-white">$89.99</span>
+              <span class="text-xs text-slate-400">once</span>
+            </div>
+          </div>
+        </label>
+      </div>
+
+      <!-- Feature Checklist -->
+      <ul class="text-xs text-slate-300 space-y-2 mb-6">
+        <li class="flex items-center space-x-2">
+          <i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i>
+          <span>Unlimited habits & atomic routines</span>
+        </li>
+        <li class="flex items-center space-x-2">
+          <i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i>
+          <span>AI Behavioral Routine Stacking & Burnout Protection</span>
+        </li>
+        <li class="flex items-center space-x-2">
+          <i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i>
+          <span>Sync seamlessly across iOS, Android & React Native Web</span>
+        </li>
+      </ul>
+
+      <!-- CTA Button -->
+      <button id="btnExecutePurchase" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-black text-sm shadow-xl shadow-emerald-500/25 transition">
+        Start 7-Day Free Trial
+      </button>
+      <p class="text-center text-[10px] text-slate-500 mt-2">Secured by RevenueCat Web & App Store Billing. Cancel anytime.</p>
+    </div>
+  </div>
+
+  <!-- EXIT OFFER RESCUE MODAL -->
+  <div id="exitOfferModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="bg-gradient-to-b from-amber-950/40 via-slate-900 to-slate-950 border border-amber-500/40 rounded-3xl max-w-md w-full p-6 shadow-2xl relative text-center">
+      <div class="w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center mx-auto mb-3 text-xl">
+        <i class="fa-solid fa-gift"></i>
+      </div>
+      <h3 class="text-xl font-black text-white">Wait! Special Rescue Offer</h3>
+      <p class="text-xs text-slate-300 mt-1 mb-4">Get your first month of HabitFlow Pro for <strong>50% off ($2.49)</strong> instead of leaving empty-handed.</p>
+      
+      <div class="p-3 rounded-xl bg-slate-900 border border-amber-500/30 mb-4 text-left flex items-center justify-between">
+        <div>
+          <span class="text-xs font-bold text-amber-300">Pro 50% Rescue Deal</span>
+          <p class="text-[11px] text-slate-400">All Pro features included</p>
+        </div>
+        <span class="text-base font-black text-white">$2.49 <span class="text-[10px] line-through text-slate-500">$4.99</span></span>
+      </div>
+
+      <div class="space-y-2">
+        <button id="btnClaimExitOffer" class="w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-lg shadow-amber-500/20 transition">
+          Claim 50% Discount ($2.49)
+        </button>
+        <button id="btnDismissExitOffer" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white font-medium text-xs transition">
+          No thanks, continue with Free
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMER CENTER MODAL -->
+  <div id="customerCenterModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl relative">
+      <button id="btnCloseCustomerCenter" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+      <div class="flex items-center space-x-3 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-slate-800 text-emerald-400 flex items-center justify-center">
+          <i class="fa-solid fa-id-card text-lg"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-base">Customer Center</h3>
+          <p class="text-xs text-slate-400">In-App Self-Service Portal</p>
+        </div>
+      </div>
+
+      <div id="customerCenterBody" class="space-y-4 text-xs">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let state = {
+      isPro: false,
+      habits: [],
+      hasSeenExitOffer: false
+    };
+
+    // Countdown Timer simulation
+    let secondsLeft = 23 * 3600 + 59 * 60 + 59;
+    setInterval(() => {
+      secondsLeft--;
+      if (secondsLeft < 0) secondsLeft = 86400;
+      const h = String(Math.floor(secondsLeft / 3600)).padStart(2, '0');
+      const m = String(Math.floor((secondsLeft % 3600) / 60)).padStart(2, '0');
+      const s = String(secondsLeft % 60).padStart(2, '0');
+      document.getElementById('paywallCountdown').innerText = `${h}:${m}:${s}`;
+    }, 1000);
+
+    async function loadState() {
+      const res = await fetch('/api/state');
+      state = await res.json();
+      renderApp();
+    }
+
+    function renderApp() {
+      // Update badge
+      const navBadge = document.getElementById('navTierBadge');
+      const btnUpgrade = document.getElementById('btnUpgradeNav');
+      if (state.isPro) {
+        navBadge.className = 'text-[10px] font-black px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40';
+        navBadge.innerText = 'PRO SUBSCRIBER';
+        btnUpgrade.classList.add('hidden');
+      } else {
+        navBadge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700';
+        navBadge.innerText = 'FREE TIER';
+        btnUpgrade.classList.remove('hidden');
+      }
+
+      // Update count
+      const countEl = document.getElementById('habitCountDisplay');
+      const noticeEl = document.getElementById('habitUsageNotice');
+      countEl.innerText = `${state.habits.length} ${state.isPro ? 'habits' : '/ 3 habits'}`;
+      noticeEl.innerText = state.isPro ? '(Unlimited Pro Plan)' : '(Free tier limit: 3)';
+
+      // Render habits
+      const listEl = document.getElementById('habitList');
+      listEl.innerHTML = '';
+      state.habits.forEach(habit => {
+        const item = document.createElement('div');
+        item.className = 'p-4 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between hover:border-slate-700 transition';
+        item.innerHTML = `
+          <div class="flex items-center space-x-3">
+            <button onclick="completeHabit('${habit.id}')" class="w-8 h-8 rounded-lg border ${habit.completedToday ? 'bg-emerald-500 border-emerald-500 text-slate-950' : 'border-slate-700 hover:border-emerald-500 text-transparent'} flex items-center justify-center transition">
+              <i class="fa-solid fa-check text-xs font-black"></i>
+            </button>
+            <div>
+              <h4 class="font-bold text-sm ${habit.completedToday ? 'line-through text-slate-500' : 'text-slate-100'}">${habit.title}</h4>
+              <div class="flex items-center space-x-2 text-[11px] text-slate-400">
+                <span class="capitalize text-emerald-400">${habit.category}</span>
+                <span>•</span>
+                <span class="flex items-center space-x-1 text-amber-400 font-semibold">
+                  <i class="fa-solid fa-fire text-xs"></i>
+                  <span>${habit.streak} day streak</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        `;
+        listEl.appendChild(item);
+      });
+
+      // Render AI Coach
+      renderAICoach();
+    }
+
+    async function renderAICoach() {
+      const container = document.getElementById('aiCoachContainer');
+      const res = await fetch('/api/ai-coach');
+      const coachData = await res.json();
+
+      if (coachData.locked) {
+        container.innerHTML = `
+          <div class="p-4 rounded-xl bg-purple-950/20 border border-purple-900/40 text-center space-y-3">
+            <i class="fa-solid fa-lock text-purple-400 text-xl"></i>
+            <p class="text-xs text-slate-300 leading-relaxed">${coachData.message}</p>
+            <button onclick="openPaywall()" class="w-full py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs transition">
+              Unlock AI Coach
+            </button>
+          </div>
+        `;
+      } else {
+        container.innerHTML = coachData.insights.map(i => `
+          <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700/60 space-y-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-purple-400">${i.type}</span>
+            <h4 class="text-xs font-bold text-white">${i.title}</h4>
+            <p class="text-[11px] text-slate-300 leading-relaxed">${i.advice}</p>
+          </div>
+        `).join('');
+      }
+    }
+
+    async function completeHabit(id) {
+      await fetch('/api/habits/complete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ habitId: id })
+      });
+      loadState();
+    }
+
+    // Paywall Modal handlers
+    function openPaywall() {
+      document.getElementById('paywallModal').classList.remove('hidden');
+    }
+
+    function closePaywall() {
+      document.getElementById('paywallModal').classList.add('hidden');
+      if (!state.isPro && !state.hasSeenExitOffer) {
+        state.hasSeenExitOffer = true;
+        document.getElementById('exitOfferModal').classList.remove('hidden');
+      }
+    }
+
+    document.getElementById('btnUpgradeNav').onclick = openPaywall;
+    document.getElementById('btnClosePaywall').onclick = closePaywall;
+
+    document.getElementById('btnOpenAddModal').onclick = async () => {
+      if (!state.isPro && state.habits.length >= 3) {
+        openPaywall();
+      } else {
+        const title = prompt('Enter habit name:');
+        if (title) {
+          const res = await fetch('/api/habits', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title, category: 'focus' })
+          });
+          if (res.status === 403) {
+            openPaywall();
+          } else {
+            loadState();
+          }
+        }
+      }
+    };
+
+    // Purchase execution
+    document.getElementById('btnExecutePurchase').onclick = async () => {
+      const selected = document.querySelector('input[name="rc_package"]:checked').value;
+      const res = await fetch('/api/purchase', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ packageIdentifier: selected })
+      });
+      const data = await res.json();
+      if (data.success) {
+        document.getElementById('paywallModal').classList.add('hidden');
+        alert('🎉 Subscription activated via RevenueCat! Pro unlocked.');
+        loadState();
+      }
+    };
+
+    // Exit Offer handlers
+    document.getElementById('btnClaimExitOffer').onclick = async () => {
+      const res = await fetch('/api/purchase', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ packageIdentifier: '$rc_exit_offer' })
+      });
+      const data = await res.json();
+      if (data.success) {
+        document.getElementById('exitOfferModal').classList.add('hidden');
+        alert('🎁 Special 50% Rescue Deal Activated! Welcome to Pro.');
+        loadState();
+      }
+    };
+    document.getElementById('btnDismissExitOffer').onclick = () => {
+      document.getElementById('exitOfferModal').classList.add('hidden');
+    };
+
+    // Customer Center handlers
+    document.getElementById('btnCustomerCenter').onclick = async () => {
+      const res = await fetch('/api/state');
+      const data = await res.json();
+      const cc = data.customerCenter;
+      const body = document.getElementById('customerCenterBody');
+      body.innerHTML = `
+        <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700/60 space-y-2">
+          <div class="flex justify-between">
+            <span class="text-slate-400">Subscription Status:</span>
+            <strong class="${cc.isSubscribed ? 'text-emerald-400' : 'text-slate-300'}">${cc.status}</strong>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-400">Current Plan:</span>
+            <span class="font-mono text-slate-200">${cc.planTitle}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-400">Auto-Renew:</span>
+            <span>${cc.autoRenew ? 'Enabled' : 'Disabled'}</span>
+          </div>
+        </div>
+        <div class="space-y-2 pt-2">
+          <button onclick="simulateCancelWebhook()" class="w-full py-2.5 rounded-xl border border-red-500/40 text-red-400 hover:bg-red-500/10 font-bold transition">
+            Simulate Cancel Subscription (Webhook)
+          </button>
+        </div>
+      `;
+      document.getElementById('customerCenterModal').classList.remove('hidden');
+    };
+
+    document.getElementById('btnCloseCustomerCenter').onclick = () => {
+      document.getElementById('customerCenterModal').classList.add('hidden');
+    };
+
+    async function simulateCancelWebhook() {
+      await fetch('/api/webhooks/revenuecat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'CANCELLATION', app_user_id: state.customerInfo.userId })
+      });
+      alert('Webhook dispatched: Auto-renewal cancelled.');
+      document.getElementById('customerCenterModal').classList.add('hidden');
+      loadState();
+    }
+
+    loadState();
+  </script>
+</body>
+</html>
