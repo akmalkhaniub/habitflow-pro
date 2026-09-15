@@ -1,0 +1,26 @@
+{
+  "name": "habitflow-pro",
+  "version": "1.0.0",
+  "description": "Adaptive AI Habit & Flow Coach with RevenueCat in-app subscriptions and paywalls",
+  "main": "src/habit_engine.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --loader ts-node/esm test/verify_habitflow.ts 2>/dev/null || tsx test/verify_habitflow.ts || node test/verify_habitflow.js",
+    "start": "node test/verify_habitflow.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "revenuecat",
+    "shipaton",
+    "habits",
+    "subscriptions",
+    "paywall",
+    "ai-coach",
+    "react-native"
+  ],
+  "author": "Antigravity Builder",
+  "license": "MIT"
+}
