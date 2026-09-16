@@ -1,0 +1,20 @@
+services:
+  habitflow-pro:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: habitflow-pro:latest
+    container_name: habitflow-pro
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - REVENUECAT_API_KEY=${REVENUECAT_API_KEY:-mock_rc_key_shipaton_2026}
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3001/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped

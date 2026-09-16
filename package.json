@@ -5,8 +5,15 @@
   "main": "src/habit_engine.js",
   "type": "module",
   "scripts": {
-    "test": "node --loader ts-node/esm test/verify_habitflow.ts 2>/dev/null || tsx test/verify_habitflow.ts || node test/verify_habitflow.js",
-    "start": "node test/verify_habitflow.js"
+    "start": "node src/server.js",
+    "test": "node test/verify_habitflow.js",
+    "docker:build": "docker build -t habitflow-pro:latest .",
+    "docker:run": "docker run -d -p 3001:3001 --name habitflow-pro habitflow-pro:latest",
+    "docker:compose": "docker compose up -d",
+    "deploy:aws": "sh deploy/aws/deploy.sh",
+    "deploy:gcp": "sh deploy/gcp/deploy.sh",
+    "deploy:azure": "sh deploy/azure/deploy.sh",
+    "deploy:k8s": "kubectl apply -k deploy/k8s/"
   },
   "dependencies": {
     "dotenv": "^16.4.7"

@@ -1,0 +1,35 @@
+version: 1.0
+runtime: custom
+build:
+  commands:
+    build:
+      - echo "Building HabitFlow Pro for AWS App Runner..."
+run:
+  runtime-version: custom
+  command: node src/server.js
+  network:
+    port: 3001
+    env: PORT
+  env:
+    - name: NODE_ENV
+      value: production
+  secrets:
+    - name: REVENUECAT_API_KEY
+      value-from: "arn:aws:secretsmanager:us-east-1:123456789012:secret:habitflow/revenuecat-key"
+
+service:
+  serviceName: habitflow-pro
+  instanceConfiguration:
+    cpu: "1 vCPU"
+    memory: "2 GB"
+  healthCheckConfiguration:
+    protocol: HTTP
+    path: /api/health
+    interval: 10
+    timeout: 5
+    healthyThreshold: 1
+    unhealthyThreshold: 3
+  autoScalingConfiguration:
+    minSize: 1
+    maxSize: 5
+    maxConcurrency: 100

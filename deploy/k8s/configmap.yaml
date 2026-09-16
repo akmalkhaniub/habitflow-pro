@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: habitflow-config
+data:
+  NODE_ENV: "production"
+  PORT: "3001"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: habitflow-secrets
+type: Opaque
+stringData:
+  revenuecat-api-key: "mock_rc_key_shipaton_2026"
