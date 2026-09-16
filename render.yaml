@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: habitflow-pro
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: REVENUECAT_API_KEY
+        sync: false
+    healthCheckPath: /api/health
+    autoDeploy: true

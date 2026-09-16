@@ -1,0 +1,19 @@
+# Koyeb Free Tier Specification
+name: habitflow-pro
+type: web
+instance_type: nano
+regions:
+  - fra
+docker:
+  dockerfile: Dockerfile
+ports:
+  - port: 3001
+    protocol: http
+routes:
+  - path: /
+    port: 3001
+env:
+  - key: NODE_ENV
+    value: production
+  - key: PORT
+    value: "3001"
