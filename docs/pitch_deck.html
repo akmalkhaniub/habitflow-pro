@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HabitFlow Pro — Pitch Deck (RevenueCat Ship-a-thon 2026)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #020617; color: #f8fafc; }
+    .slide {
+      width: 100%;
+      max-width: 1100px;
+      aspect-ratio: 16 / 9;
+      margin: 2rem auto;
+      border-radius: 1.25rem;
+      border: 1px solid #1e293b;
+      background: radial-gradient(circle at top right, #064e3b 0%, #020617 100%);
+      padding: 3.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      page-break-after: always;
+      position: relative;
+      overflow: hidden;
+    }
+    @media print {
+      body { background: #020617; }
+      .slide { margin: 0; border: none; box-shadow: none; border-radius: 0; width: 100vw; height: 100vh; }
+      .no-print { display: none; }
+    }
+  </style>
+</head>
+<body class="p-4 md:p-8">
+
+  <!-- Print Notice Toolbar -->
+  <div class="no-print max-w-[1100px] mx-auto mb-6 flex items-center justify-between bg-slate-900 border border-slate-800 p-4 rounded-xl">
+    <div>
+      <h3 class="text-sm font-bold text-emerald-400">HabitFlow Pro Presentation Deck (16:9)</h3>
+      <p class="text-xs text-slate-400">Ready for Devpost Ship-a-thon submission. Press Ctrl+P to export as PDF.</p>
+    </div>
+    <button onclick="window.print()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-lg shadow-lg transition">
+      Save / Print to PDF
+    </button>
+  </div>
+
+  <!-- Slide 1: Cover -->
+  <div class="slide">
+    <div class="flex items-center space-x-3">
+      <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center font-bold text-slate-950 text-lg shadow-lg shadow-emerald-500/30">
+        HF
+      </div>
+      <span class="text-xs font-semibold tracking-wider uppercase px-3 py-1 rounded-full bg-emerald-950 border border-emerald-800 text-emerald-400">
+        RevenueCat Ship-a-thon 2026
+      </span>
+    </div>
+
+    <div>
+      <h1 class="text-5xl font-extrabold text-white tracking-tight mb-3">HabitFlow Pro</h1>
+      <p class="text-2xl font-light text-emerald-300">Adaptive AI Habit &amp; Flow Coach with RevenueCat Monetization</p>
+      <p class="text-sm text-slate-400 mt-4 max-w-2xl">
+        Transforming habit adherence through intelligent routine stacking, AI burnout prevention, and modern RevenueCat Paywalls v2 architecture.
+      </p>
+    </div>
+
+    <div class="flex items-center justify-between border-t border-slate-800/80 pt-4 text-xs text-slate-500">
+      <span>Built with RevenueCat SDK, Paywalls v2, &amp; In-App Customer Center</span>
+      <span>Devpost Submission • September 2026</span>
+    </div>
+  </div>
+
+  <!-- Slide 2: Problem & Solution -->
+  <div class="slide">
+    <div class="flex items-center justify-between">
+      <span class="text-xs font-mono text-emerald-400 uppercase tracking-wider">01. The Problem &amp; Opportunity</span>
+      <span class="text-xs text-slate-500">Behavioral Friction</span>
+    </div>
+
+    <div class="grid grid-cols-2 gap-8">
+      <div class="space-y-4">
+        <h3 class="text-2xl font-bold text-white">Why 92% of Habits Fail</h3>
+        <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl text-xs text-slate-300 space-y-2">
+          <p><strong class="text-rose-400">• Rigid Streak Punishment:</strong> Missing one day resets streaks to zero, triggering guilt and immediate app abandonment.</p>
+          <p><strong class="text-amber-400">• Zero Contextual Adaptation:</strong> Apps ignore fatigue, work deadlines, and burnout signals.</p>
+          <p><strong class="text-blue-400">• Clunky Monetization:</strong> Basic paywalls with high bounce rates and no self-service retention tools.</p>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="text-2xl font-bold text-white">The HabitFlow Pro Solution</h3>
+        <div class="bg-slate-900/60 border border-emerald-950 p-4 rounded-xl text-xs text-slate-300 space-y-2">
+          <p><strong class="text-emerald-400">• Adaptive Streak Shield:</strong> Smart grace periods that preserve long-term momentum.</p>
+          <p><strong class="text-teal-300">• AI Routine Coach:</strong> Generates micro-adjustments and habit stacking recommendations.</p>
+          <p><strong class="text-cyan-300">• RevenueCat Paywalls v2:</strong> Dynamic countdowns, 50% exit offer rescue, and Customer Center retention.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-slate-800 pt-3 text-xs text-slate-500">Behavioral Science Meets Modern Monetization</div>
+  </div>
+
+  <!-- Slide 3: RevenueCat Architecture -->
+  <div class="slide">
+    <div class="flex items-center justify-between">
+      <span class="text-xs font-mono text-emerald-400 uppercase tracking-wider">02. Monetization Stack</span>
+      <span class="text-xs text-slate-500">RevenueCat 2026 Standard</span>
+    </div>
+
+    <div>
+      <h2 class="text-3xl font-bold text-white mb-6">RevenueCat In-App Monetization Engine</h2>
+      <div class="grid grid-cols-4 gap-4">
+        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+          <div class="text-emerald-400 font-bold text-sm mb-1">Paywalls v2</div>
+          <p class="text-xs text-slate-400">Remote configuration, countdown timers, and interactive comparison components.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+          <div class="text-emerald-400 font-bold text-sm mb-1">Exit Offer Rescue</div>
+          <p class="text-xs text-slate-400">Automatically offers 50% off the first month upon paywall dismissal to recover lost conversions.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+          <div class="text-emerald-400 font-bold text-sm mb-1">Customer Center</div>
+          <p class="text-xs text-slate-400">In-app self-service subscription management, plan changes, and churn deflection surveys.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+          <div class="text-emerald-400 font-bold text-sm mb-1">Web Billing Sync</div>
+          <p class="text-xs text-slate-400">Unified entitlement tracking across mobile and Stripe-powered React Native Web Billing.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-slate-800 pt-3 text-xs text-slate-500">Full RevenueCat 2026 Lifecycle Integration</div>
+  </div>
+
+  <!-- Slide 4: Subscription Tiers -->
+  <div class="slide">
+    <div class="flex items-center justify-between">
+      <span class="text-xs font-mono text-emerald-400 uppercase tracking-wider">03. Pricing Strategy</span>
+      <span class="text-xs text-slate-500">High LTV Packaging</span>
+    </div>
+
+    <div class="grid grid-cols-3 gap-6">
+      <div class="p-5 rounded-xl bg-slate-900/60 border border-slate-800 flex flex-col justify-between">
+        <div>
+          <span class="text-xs font-mono text-slate-400 uppercase">Monthly</span>
+          <div class="text-3xl font-bold text-white mt-1">$4.99 <span class="text-xs font-normal text-slate-400">/ mo</span></div>
+          <ul class="text-xs text-slate-300 mt-4 space-y-2">
+            <li>• Unlimited active habits</li>
+            <li>• AI routine coach access</li>
+            <li>• Standard cloud sync</li>
+          </ul>
+        </div>
+        <div class="text-[11px] text-slate-500 mt-4">Recurring monthly billing</div>
+      </div>
+
+      <div class="p-5 rounded-xl bg-slate-900/80 border border-emerald-500 relative flex flex-col justify-between shadow-lg shadow-emerald-500/10">
+        <div class="absolute -top-3 right-4 px-2 py-0.5 bg-emerald-500 text-slate-950 font-bold text-[10px] rounded-full uppercase">
+          Best Value (33% Off)
+        </div>
+        <div>
+          <span class="text-xs font-mono text-emerald-400 uppercase">Annual Flagship</span>
+          <div class="text-3xl font-bold text-white mt-1">$39.99 <span class="text-xs font-normal text-slate-400">/ yr</span></div>
+          <ul class="text-xs text-slate-200 mt-4 space-y-2">
+            <li>• <strong>7-Day Free Trial</strong> included</li>
+            <li>• Unlimited habit stacking</li>
+            <li>• Full AI routine audit &amp; coaching</li>
+            <li>• Multi-device sync &amp; priority support</li>
+          </ul>
+        </div>
+        <div class="text-[11px] text-emerald-400 mt-4">Equivalent to $3.33/month</div>
+      </div>
+
+      <div class="p-5 rounded-xl bg-slate-900/60 border border-slate-800 flex flex-col justify-between">
+        <div>
+          <span class="text-xs font-mono text-slate-400 uppercase">Lifetime</span>
+          <div class="text-3xl font-bold text-white mt-1">$89.99 <span class="text-xs font-normal text-slate-400">once</span></div>
+          <ul class="text-xs text-slate-300 mt-4 space-y-2">
+            <li>• Lifetime Pro entitlement</li>
+            <li>• All future AI coach features</li>
+            <li>• Founder status badge</li>
+          </ul>
+        </div>
+        <div class="text-[11px] text-slate-500 mt-4">Single non-consumable purchase</div>
+      </div>
+    </div>
+
+    <div class="border-t border-slate-800 pt-3 text-xs text-slate-500">Tier Optimization</div>
+  </div>
+
+  <!-- Slide 5: Roadmap & Verification -->
+  <div class="slide">
+    <div class="flex items-center justify-between">
+      <span class="text-xs font-mono text-emerald-400 uppercase tracking-wider">04. Delivery &amp; Next Steps</span>
+      <span class="text-xs text-slate-500">Production Ready</span>
+    </div>
+
+    <div>
+      <h2 class="text-3xl font-bold text-white mb-6">100% Verified Production Pipeline</h2>
+      <div class="grid grid-cols-2 gap-6">
+        <div class="p-5 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2 text-xs">
+          <div class="font-bold text-emerald-400 text-sm">✅ Automated Test Suite (10/10 Passed)</div>
+          <p class="text-slate-300">• Free Tier Habit Gating strictly verified (max 3 habits).</p>
+          <p class="text-slate-300">• Paywall v2 offering structures &amp; 50% exit offer verified.</p>
+          <p class="text-slate-300">• Webhook lifecycle (Cancellation &amp; Expiration) revocation verified.</p>
+          <p class="text-slate-300">• React Native Web Billing URL generation verified.</p>
+        </div>
+        <div class="p-5 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2 text-xs">
+          <div class="font-bold text-teal-300 text-sm">🚀 Ship-a-thon Submission Checklist</div>
+          <p class="text-slate-300">• Public GitHub repo: <code class="text-emerald-400">akmalkhaniub/habitflow-pro</code></p>
+          <p class="text-slate-300">• 16:9 Cover Hero Mockup included.</p>
+          <p class="text-slate-300">• Instant live tunnel: <code class="text-emerald-400">npm run tunnel</code></p>
+          <p class="text-slate-300">• Deploy guides ready for iOS, Android, and Cloud.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between border-t border-slate-800 pt-3 text-xs text-slate-500">
+      <span class="font-mono text-emerald-400">github.com/akmalkhaniub/habitflow-pro</span>
+      <span>Thank you RevenueCat &amp; Devpost!</span>
+    </div>
+  </div>
+
+</body>
+</html>

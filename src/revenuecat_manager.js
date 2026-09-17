@@ -42,7 +42,7 @@ export const REVENUECAT_CONFIG = {
 };
 
 export class RevenueCatManager {
-  constructor(apiKey = 'appl_mock_revenuecat_key') {
+  constructor(apiKey = process.env.REVENUECAT_API_KEY || 'appl_mock_revenuecat_key') {
     this.apiKey = apiKey;
     this.userId = 'anon_' + Math.random().toString(36).substring(2, 11);
     this.activeEntitlements = new Set();

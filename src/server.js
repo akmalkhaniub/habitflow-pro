@@ -5,9 +5,15 @@ import { fileURLToPath } from 'url';
 import { HabitEngine } from './habit_engine.js';
 import { RevenueCatManager } from './revenuecat_manager.js';
 import { AdaptiveAICoach } from './ai_coach.js';
+import dotenv from 'dotenv';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Load local project .env first, then fallback to master hackathons .env
+dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+
 const PUBLIC_DIR = path.join(__dirname, 'public');
 const PORT = process.env.PORT || 3001;
 
