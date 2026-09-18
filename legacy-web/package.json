@@ -1,0 +1,39 @@
+{
+  "name": "habitflow-pro",
+  "version": "1.0.0",
+  "description": "Adaptive AI Habit & Flow Coach with RevenueCat in-app subscriptions and paywalls",
+  "main": "src/habit_engine.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node test/verify_habitflow.js && node test/server_integration.js",
+    "test:unit": "node test/verify_habitflow.js",
+    "test:integration": "node test/server_integration.js",
+    "docker:build": "docker build -t habitflow-pro:latest .",
+    "docker:run": "docker run -d -p 3001:3001 --name habitflow-pro habitflow-pro:latest",
+    "docker:compose": "docker compose up -d",
+    "deploy:aws": "sh deploy/aws/deploy.sh",
+    "deploy:gcp": "sh deploy/gcp/deploy.sh",
+    "deploy:azure": "sh deploy/azure/deploy.sh",
+    "deploy:k8s": "kubectl apply -k deploy/k8s/",
+    "tunnel": "powershell -ExecutionPolicy Bypass -File deploy/free/tunnel.ps1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "revenuecat",
+    "shipaton",
+    "habits",
+    "subscriptions",
+    "paywall",
+    "ai-coach",
+    "react-native"
+  ],
+  "author": "Antigravity Builder",
+  "license": "MIT"
+}

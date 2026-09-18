@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "HabitFlow Pro",
+    "slug": "habitflow-pro",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "habitflow",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": false,
+    "splash": {
+      "backgroundColor": "#0B1020"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.habitflow.pro"
+    },
+    "android": {
+      "package": "com.habitflow.pro",
+      "adaptiveIcon": {
+        "backgroundColor": "#0B1020"
+      }
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "extra": {
+      "revenueCatIosKey": "",
+      "revenueCatAndroidKey": ""
+    }
+  }
+}

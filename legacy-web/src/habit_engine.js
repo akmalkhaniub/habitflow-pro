@@ -129,6 +129,25 @@ export class HabitEngine {
     };
   }
 
+  /**
+   * Return all habits as JSON-safe summary objects (Sets are expanded to arrays)
+   * enriched with derived streak / risk / completed-today fields for the UI.
+   */
+  getAllHabits() {
+    const todayStr = this.getTodayDateStr();
+    return Array.from(this.habits.values()).map((habit) => ({
+      id: habit.id,
+      title: habit.title,
+      category: habit.category,
+      targetDaysPerWeek: habit.targetDaysPerWeek,
+      createdAt: habit.createdAt,
+      completions: Array.from(habit.completions),
+      completedToday: habit.completions.has(todayStr),
+      currentStreak: this.calculateStreak(habit.id),
+      streakRisk: this.getStreakRiskScore(habit.id)
+    }));
+  }
+
   getTodayDateStr() {
     return this.formatDate(new Date());
   }

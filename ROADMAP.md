@@ -4,24 +4,27 @@
 
 ---
 
+> **Status legend (updated 2026-09-18):** `[x]` implemented in code · `[~]` partial / needs a device build to verify · `[ ]` not started.
+> **Reality note:** **Migrated to a native Expo / React Native app (TypeScript, strict).** Habit engine, AI coach, and RevenueCat `pro_access` entitlement logic ported into `src/lib` + `src/services`; screens (Today / Coach / Paywall / Settings) built with bottom-tab navigation. `react-native-purchases` is wired with a simulated-store fallback. The old web prototype is preserved under `legacy-web/`. Live purchases + on-device polish still need a dev/EAS build to verify.
+
 ## Phase 1: App Shell, State & Core UI (Days 1–4)
-- [ ] Initialize Expo project with TypeScript, NativeWind/Tailwind, and React Navigation.
-- [ ] Implement core habit creation, checklist rendering, and streak calculation engine.
-- [ ] Setup local persistent storage (AsyncStorage / SQLite) for offline-first usage.
-- [ ] Add smooth animations, gesture handlers, and haptic feedback.
+- [x] Initialize Expo project with TypeScript and React Navigation (bottom tabs).
+- [x] Implement core habit creation, checklist rendering, and streak calculation engine.
+- [x] Setup local persistent storage (AsyncStorage) for offline-first usage.
+- [~] Add smooth animations, gesture handlers, and haptic feedback. *(haptics on toggle wired; richer animations pending)*
 
 ## Phase 2: RevenueCat SDK & Paywall Integration (Days 5–8)
-- [ ] Install and configure `react-native-purchases` and `react-native-purchases-ui`.
-- [ ] Create RevenueCat project in dashboard, configure Products & Entitlement (`pro_access`).
-- [ ] Build custom paywall screen and integrate RevenueCat's native Paywall component.
-- [ ] Implement purchase flow, restore purchases handler, and customer state listener.
+- [x] Install and configure `react-native-purchases` (wrapper service + provider).
+- [x] Configure Products & Entitlement (`pro_access`) — modeled in `src/lib/products.ts`; create in dashboard to go live.
+- [x] Build custom paywall screen (packages, features, plan selection).
+- [x] Implement purchase flow, restore purchases handler, and entitlement state.
 
 ## Phase 3: AI Coaching & Analytics (Days 9–11)
-- [ ] Integrate lightweight AI routine/coach engine (OpenAI / Anthropic API via secure proxy).
-- [ ] Gate AI coaching features behind `pro_access` entitlement check.
-- [ ] Add streak risk warning push notifications (Expo Notifications).
+- [x] Port the AI routine/coach engine into the app (rule-based insights).
+- [x] Gate AI coaching features behind `pro_access` entitlement check.
+- [~] Add streak risk warning push notifications (Expo Notifications). *(risk computed + surfaced in UI; push notifications pending)*
 
 ## Phase 4: Production Polish, Demo & Submission (Days 12–15)
-- [ ] Test purchase sandbox flows on both iOS simulator and Android emulator.
+- [ ] Test purchase sandbox flows on both iOS simulator and Android emulator (needs EAS/dev build).
 - [ ] Create promotional mockups, app screenshots, and record high-res video demonstration.
 - [ ] Finalize Devpost project submission page, public GitHub repository, and documentation.

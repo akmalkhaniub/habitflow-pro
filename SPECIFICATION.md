@@ -1,7 +1,9 @@
 # Technical Specification: HabitFlow Pro
 **Project Name:** HabitFlow Pro (RevenueCat Shipaton 2026)  
 **Target Platform:** iOS / Android (React Native via Expo)  
-**Status:** Ready for Implementation  
+**Status:** Native Expo / React Native app implemented (updated 2026-09-18)  
+
+> **Implementation status (2026-09-18):** Migrated to a native **Expo / React Native** app (TypeScript, strict). Built: bottom-tab app shell (Today / Coach / Paywall / Settings), ported habit + streak engine and rule-based AI coach (`src/lib`), `react-native-purchases` wrapper with `pro_access` gating and a simulated-store fallback (`src/services/purchases.ts`), AsyncStorage persistence, and a pure-logic test suite. The old web prototype is preserved under `legacy-web/`. Still needs a device/EAS build to verify live App Store / Play Store purchases; push notifications and richer animations pending.
 **Version:** 1.0.0  
 
 ---
