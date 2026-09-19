@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { HabitEngine, type HabitSummary, type HabitCategory, type Habit } from '../lib/habitEngine';
 import { loadHabits, saveHabits } from '../services/storage';
+import { analytics } from '../services/analytics';
+import { scheduleStreakReminder } from '../services/notifications';
 
 interface HabitStoreValue {
   habits: HabitSummary[];
@@ -28,9 +30,12 @@ export function HabitStoreProvider({ children }: { children: React.ReactNode }) 
 
   const sync = () => {
     const engine = engineRef.current;
-    setHabits(engine.getAllHabits());
+    const all = engine.getAllHabits();
+    setHabits(all);
     setDailyPercentage(engine.getDailySummary().percentage);
     void saveHabits(engine.toJSON());
+    // Refresh the evening streak-risk reminder (no-op if nothing at risk / no perms).
+    void scheduleStreakReminder(all);
   };
 
   useEffect(() => {
@@ -51,6 +56,7 @@ export function HabitStoreProvider({ children }: { children: React.ReactNode }) 
       engine: engineRef.current,
       addHabit: (title, category) => {
         engineRef.current.addHabit({ title, category });
+        analytics.track({ name: 'habit_created', category, total: engineRef.current.size });
         sync();
       },
       removeHabit: (id) => {
@@ -58,7 +64,8 @@ export function HabitStoreProvider({ children }: { children: React.ReactNode }) 
         sync();
       },
       toggleToday: (id) => {
-        engineRef.current.toggleToday(id);
+        const nowDone = engineRef.current.toggleToday(id);
+        if (nowDone) analytics.track({ name: 'habit_completed', streak: engineRef.current.calculateStreak(id) });
         sync();
       },
       refresh: sync

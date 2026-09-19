@@ -1,21 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Pressable, ScrollView, ActivityIndicator, Alert } from 'react-native';
 import { usePurchases } from '../state/PurchasesProvider';
+import { analytics } from '../services/analytics';
 import { theme } from '../theme';
 import type { SimplePackage } from '../services/purchases';
 
-export function PaywallScreen({ onClose }: { onClose: () => void }) {
+export function PaywallScreen({ onClose, source = 'unknown' }: { onClose: () => void; source?: string }) {
   const { offering, buy, restore, purchasing, mock, isPro } = usePurchases();
   const [selected, setSelected] = useState<string | null>(null);
+
+  useEffect(() => {
+    analytics.track({ name: 'paywall_viewed', source });
+  }, [source]);
 
   const pkgs = offering?.packages ?? [];
   const chosen = pkgs.find((p) => p.identifier === selected) ?? pkgs.find((p) => p.period === 'ANNUAL') ?? pkgs[0];
 
   const onBuy = async () => {
     if (!chosen) return;
-    const ok = await buy(chosen);
-    if (ok) onClose();
-    else Alert.alert('Purchase not completed', 'No entitlement was granted. Please try again.');
+    const res = await buy(chosen);
+    if (res.status === 'completed' && res.isPro) onClose();
+    else if (res.status === 'error') Alert.alert('Purchase failed', res.reason ?? 'Please try again.');
+    // status === 'cancelled' → stay quiet; the user chose to back out.
   };
 
   const onRestore = async () => {

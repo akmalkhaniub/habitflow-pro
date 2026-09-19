@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import { useHabitStore } from '../state/HabitStore';
 import { usePurchases } from '../state/PurchasesProvider';
 import { generateInsights } from '../lib/aiCoach';
+import { analytics } from '../services/analytics';
 import { theme } from '../theme';
 
 const severityColor: Record<string, string> = {
@@ -17,6 +18,10 @@ export function CoachScreen({ onUpgrade }: { onUpgrade: () => void }) {
 
   // Recompute when habits change (habits in deps).
   const result = useMemo(() => generateInsights(engine, isPro), [engine, isPro, habits]);
+
+  useEffect(() => {
+    analytics.track({ name: 'coach_viewed', locked: result.locked });
+  }, [result.locked]);
 
   if (result.locked) {
     return (

@@ -8,6 +8,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HabitStoreProvider, useHabitStore } from './src/state/HabitStore';
 import { PurchasesProvider, usePurchases } from './src/state/PurchasesProvider';
 import { PaywallProvider, usePaywall } from './src/state/PaywallProvider';
+import { analytics, MemorySink } from './src/services/analytics';
+
+// Register the analytics sink once. In a production build, swap MemorySink for a
+// forwarder to RevenueCat / PostHog / Amplitude.
+const analyticsSink = new MemorySink();
+analytics.addSink(analyticsSink);
 import { HabitsScreen } from './src/screens/HabitsScreen';
 import { CoachScreen } from './src/screens/CoachScreen';
 import { SettingsScreen } from './src/screens/SettingsScreen';
@@ -36,13 +42,13 @@ function Tabs() {
       }}
     >
       <Tab.Screen name="Today" options={{ tabBarIcon: tabIcon('📋') }}>
-        {() => <HabitsScreen onUpgrade={open} />}
+        {() => <HabitsScreen onUpgrade={() => open('habit_limit')} />}
       </Tab.Screen>
       <Tab.Screen name="Coach" options={{ tabBarIcon: tabIcon('🧠') }}>
-        {() => <CoachScreen onUpgrade={open} />}
+        {() => <CoachScreen onUpgrade={() => open('coach_lock')} />}
       </Tab.Screen>
       <Tab.Screen name="Settings" options={{ tabBarIcon: tabIcon('⚙️') }}>
-        {() => <SettingsScreen onUpgrade={open} />}
+        {() => <SettingsScreen onUpgrade={() => open('settings')} />}
       </Tab.Screen>
     </Tab.Navigator>
   );
@@ -63,6 +69,9 @@ function Gate({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  React.useEffect(() => {
+    analytics.track({ name: 'app_opened' });
+  }, []);
   return (
     <SafeAreaProvider>
       <StatusBar style="light" />

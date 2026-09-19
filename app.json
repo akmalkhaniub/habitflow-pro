@@ -11,6 +11,9 @@
       "backgroundColor": "#0B1020"
     },
     "assetBundlePatterns": ["**/*"],
+    "plugins": [
+      ["expo-notifications", { "color": "#6C8CFF" }]
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.habitflow.pro"

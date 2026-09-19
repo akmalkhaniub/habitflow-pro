@@ -94,14 +94,22 @@ class PurchasesService {
     };
   }
 
-  /** Purchase a package; returns whether Pro is now active. */
-  async purchase(pkg: SimplePackage): Promise<boolean> {
+  /**
+   * Purchase a package. Distinguishes a real error from a user cancellation so the
+   * UI can stay quiet on cancel (a cancel is not a failure).
+   */
+  async purchase(pkg: SimplePackage): Promise<{ status: 'completed' | 'cancelled' | 'error'; isPro: boolean; reason?: string }> {
     if (this.mock || !pkg.rcPackage) {
       this.mockEntitled = true;
-      return true;
+      return { status: 'completed', isPro: true };
     }
-    const { customerInfo } = await Purchases.purchasePackage(pkg.rcPackage);
-    return this.hasEntitlement(customerInfo);
+    try {
+      const { customerInfo } = await Purchases.purchasePackage(pkg.rcPackage);
+      return { status: 'completed', isPro: this.hasEntitlement(customerInfo) };
+    } catch (e: any) {
+      if (e?.userCancelled) return { status: 'cancelled', isPro: await this.isPro() };
+      return { status: 'error', isPro: await this.isPro(), reason: e?.message ?? 'purchase failed' };
+    }
   }
 
   /** Restore prior purchases; returns whether Pro is now active. */

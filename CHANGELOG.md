@@ -2,28 +2,29 @@
 
 ## [Unreleased]
 
+### Toward L3 (2026-09-19)
+- **Analytics funnel** (`src/services/analytics.ts`): typed events for the conversion
+  funnel (paywall_viewed → purchase_started → purchase_completed/cancelled/failed →
+  restore), pluggable sinks, and a conversionRate() helper. Wired through the purchase
+  flow, habit actions, coach views, and app open.
+- **Purchase robustness**: `purchases.purchase()` now returns a typed result and
+  distinguishes user-cancellation from a real error, so a cancel is silent (not a failure
+  alert). Paywall handles each outcome.
+- **Streak-risk reminders** (`src/services/notifications.ts`): pure, unit-tested schedule
+  logic (at-risk selection, evening reminder time, body copy) plus an expo-notifications
+  wrapper that no-ops without permission; rescheduled on every habit change.
+- **Paywall attribution**: the paywall carries a `source` (habit_limit / coach_lock /
+  settings) for funnel analysis.
+- **Build-ready**: `eas.json` (development / preview / production profiles);
+  expo-notifications plugin in app.json.
+- **Tests**: +analytics suite (10) and +notifications suite (9); `npm run verify`
+  (typecheck + all suites). Total 31 pure-logic assertions.
+- **docs/DEMO_SCRIPT.md**: turnkey 3-minute demo beat sheet.
+
 ### Pivoted to a native mobile app (Expo / React Native) — 2026-09-18
-The RevenueCat Shipaton requires a shipped mobile app with a real IAP lifecycle, so the
-project was migrated from the Node.js web prototype to an **Expo / React Native** app
-(TypeScript, strict). The previous web server is preserved under `legacy-web/`.
-
-### Added
-- Expo managed app: `App.tsx` (providers + bottom-tab navigation + paywall modal),
-  `app.json`, `tsconfig.json` (extends `expo/tsconfig.base`), `babel.config.js`.
-- **RevenueCat integration** via `react-native-purchases`: `src/services/purchases.ts`
-  wraps configure / offerings / purchase / restore / entitlement checks, with a
-  deterministic simulated-store fallback when no SDK key is configured.
-- Screens: Today (habits + progress + add), Coach (Pro-gated AI insights), Paywall
-  (packages, purchase, restore), Settings.
-- Offline-first persistence via `@react-native-async-storage/async-storage`.
-- Ported the original habit engine and AI coach into pure, unit-tested modules
-  (`src/lib/habitEngine.ts`, `src/lib/aiCoach.ts`).
-- Pure-logic test suite runnable in Node via `tsx` (`__tests__/habit_logic.test.ts`).
-
-### Changed
-- Free tier limited to 3 habits; `pro_access` entitlement unlocks unlimited habits and
-  the AI coach.
+See prior entry: migrated from the Node web prototype (preserved under `legacy-web/`) to
+Expo + React Native with RevenueCat `react-native-purchases`.
 
 ### Notes
-- `react-native-purchases` needs native modules, so live purchases require a dev/EAS
-  build (not Expo Go). Configure keys in `app.json` `expo.extra`. See README.
+- Live App Store / Play Store sandbox purchases + the demo video require a device/EAS
+  build and a RevenueCat account (native modules don't run in Expo Go).

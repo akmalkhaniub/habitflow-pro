@@ -1,5 +1,8 @@
 import React, { createContext, useContext, useEffect, useMemo, useState, useCallback } from 'react';
 import { purchases, type OfferingView, type SimplePackage } from '../services/purchases';
+import { analytics } from '../services/analytics';
+
+export type BuyOutcome = { status: 'completed' | 'cancelled' | 'error'; isPro: boolean; reason?: string };
 
 interface PurchasesValue {
   ready: boolean;
@@ -7,7 +10,7 @@ interface PurchasesValue {
   mock: boolean;
   offering: OfferingView | null;
   purchasing: boolean;
-  buy: (pkg: SimplePackage) => Promise<boolean>;
+  buy: (pkg: SimplePackage) => Promise<BuyOutcome>;
   restore: () => Promise<boolean>;
   refresh: () => Promise<void>;
 }
@@ -33,12 +36,16 @@ export function PurchasesProvider({ children }: { children: React.ReactNode }) {
     })();
   }, [refresh]);
 
-  const buy = useCallback(async (pkg: SimplePackage) => {
+  const buy = useCallback(async (pkg: SimplePackage): Promise<BuyOutcome> => {
     setPurchasing(true);
+    analytics.track({ name: 'purchase_started', packageId: pkg.productIdentifier });
     try {
-      const ok = await purchases.purchase(pkg);
-      setIsPro(await purchases.isPro());
-      return ok;
+      const result = await purchases.purchase(pkg);
+      setIsPro(result.isPro);
+      if (result.status === 'completed') analytics.track({ name: 'purchase_completed', packageId: pkg.productIdentifier, mock: purchases.mock });
+      else if (result.status === 'cancelled') analytics.track({ name: 'purchase_cancelled', packageId: pkg.productIdentifier });
+      else analytics.track({ name: 'purchase_failed', packageId: pkg.productIdentifier, reason: result.reason ?? 'unknown' });
+      return result;
     } finally {
       setPurchasing(false);
     }
@@ -47,6 +54,7 @@ export function PurchasesProvider({ children }: { children: React.ReactNode }) {
   const restore = useCallback(async () => {
     const ok = await purchases.restore();
     setIsPro(await purchases.isPro());
+    analytics.track({ name: 'restore_completed', isPro: ok });
     return ok;
   }, []);
 
