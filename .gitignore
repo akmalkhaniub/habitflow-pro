@@ -8,3 +8,6 @@ web-build/
 *.tsbuildinfo
 ios/
 android/
+
+coverage/
+.nyc_output/

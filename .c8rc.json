@@ -1,0 +1,7 @@
+{
+  "//": "Coverage gates the pure, node-testable logic. RN screens/state/services that require a device runtime (react-native, expo-constants, react-native-purchases, AsyncStorage) are validated by the typecheck + a device/EAS build, not the node run.",
+  "include": ["src/lib/**/*.ts", "src/services/analytics.ts", "src/services/notifications.ts"],
+  "reporter": ["text-summary", "text"],
+  "check-coverage": true,
+  "lines": 85
+}
