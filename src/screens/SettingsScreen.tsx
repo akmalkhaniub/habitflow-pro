@@ -1,10 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable, ScrollView, Alert } from 'react-native';
 import { usePurchases } from '../state/PurchasesProvider';
+import { analytics, sessionSink } from '../services/analytics';
 import { theme } from '../theme';
 
 export function SettingsScreen({ onUpgrade }: { onUpgrade: () => void }) {
   const { isPro, mock, restore } = usePurchases();
+  const viewed = sessionSink.events.filter((e) => e.event.name === 'paywall_viewed').length;
+  const started = sessionSink.events.filter((e) => e.event.name === 'purchase_started').length;
+  const completed = sessionSink.events.filter((e) => e.event.name === 'purchase_completed').length;
+  const rate = analytics.conversionRate(sessionSink, 'paywall_viewed', 'purchase_completed');
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
@@ -27,6 +32,16 @@ export function SettingsScreen({ onUpgrade }: { onUpgrade: () => void }) {
         >
           <Text style={styles.secondaryText}>Restore purchases</Text>
         </Pressable>
+      </View>
+
+      <View style={styles.card}>
+        <Text style={styles.label}>Funnel this session</Text>
+        <Text style={styles.value}>
+          paywall {viewed} → started {started} → completed {completed}
+        </Text>
+        <Text style={styles.hint}>
+          Conversion paywall_viewed to purchase_completed: {Math.round(rate * 100)}%. In-memory only; not sent to RevenueCat.
+        </Text>
       </View>
 
       <View style={styles.card}>

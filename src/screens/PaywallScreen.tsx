@@ -57,7 +57,7 @@ export function PaywallScreen({ onClose, source = 'unknown' }: { onClose: () => 
           <Pressable key={p.identifier} onPress={() => setSelected(p.identifier)} style={[styles.plan, isSel && styles.planSel]}>
             <View>
               <Text style={styles.planTitle}>{p.title}</Text>
-              <Text style={styles.planPeriod}>{p.period}</Text>
+              <Text style={styles.planPeriod}>{p.period}{p.period === 'ANNUAL' ? ' · Best value' : ''}</Text>
             </View>
             <Text style={styles.planPrice}>{p.priceString}</Text>
           </Pressable>

@@ -8,12 +8,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HabitStoreProvider, useHabitStore } from './src/state/HabitStore';
 import { PurchasesProvider, usePurchases } from './src/state/PurchasesProvider';
 import { PaywallProvider, usePaywall } from './src/state/PaywallProvider';
-import { analytics, MemorySink } from './src/services/analytics';
+import { analytics, sessionSink } from './src/services/analytics';
 
-// Register the analytics sink once. In a production build, swap MemorySink for a
-// forwarder to RevenueCat / PostHog / Amplitude.
-const analyticsSink = new MemorySink();
-analytics.addSink(analyticsSink);
+// In-session funnel. Swap sessionSink for a RevenueCat / PostHog forwarder in production.
+analytics.addSink(sessionSink);
 import { HabitsScreen } from './src/screens/HabitsScreen';
 import { CoachScreen } from './src/screens/CoachScreen';
 import { SettingsScreen } from './src/screens/SettingsScreen';
@@ -54,6 +52,16 @@ function Tabs() {
   );
 }
 
+function DemoStoreBanner() {
+  const { mock } = usePurchases();
+  if (!mock) return null;
+  return (
+    <View style={styles.banner}>
+      <Text style={styles.bannerText}>Sandbox / Demo store — purchases are simulated until RevenueCat SDK keys are set.</Text>
+    </View>
+  );
+}
+
 function Gate({ children }: { children: React.ReactNode }) {
   const { ready } = usePurchases();
   const { loaded } = useHabitStore();
@@ -80,6 +88,7 @@ export default function App() {
           <PaywallProvider>
             <NavigationContainer theme={navTheme}>
               <Gate>
+                <DemoStoreBanner />
                 <Tabs />
               </Gate>
             </NavigationContainer>
@@ -92,5 +101,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   loading: { flex: 1, backgroundColor: theme.colors.bg, alignItems: 'center', justifyContent: 'center', gap: 16 },
-  loadingText: { color: theme.colors.text, fontSize: 18, fontWeight: '800' }
+  loadingText: { color: theme.colors.text, fontSize: 18, fontWeight: '800' },
+  banner: { backgroundColor: '#3f2e12', paddingVertical: 8, paddingHorizontal: 16 },
+  bannerText: { color: '#f6d58a', fontSize: 13, fontWeight: '700', textAlign: 'center' }
 });

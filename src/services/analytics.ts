@@ -71,3 +71,6 @@ class Analytics {
 }
 
 export const analytics = new Analytics();
+
+/** Process-wide sink the app UI reads for the in-session funnel. */
+export const sessionSink = new MemorySink();

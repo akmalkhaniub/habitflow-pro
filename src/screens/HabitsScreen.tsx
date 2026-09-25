@@ -5,6 +5,7 @@ import { useHabitStore } from '../state/HabitStore';
 import { usePurchases } from '../state/PurchasesProvider';
 import { theme, categoryColor } from '../theme';
 import { FREE_HABIT_LIMIT } from '../lib/products';
+import { atRiskHabits, reminderBody } from '../services/notifications';
 import type { HabitCategory } from '../lib/habitEngine';
 
 const CATEGORIES: HabitCategory[] = ['focus', 'health', 'learning', 'mindfulness'];
@@ -36,6 +37,12 @@ export function HabitsScreen({ onUpgrade }: { onUpgrade: () => void }) {
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
       <Text style={styles.h1}>Today</Text>
+      {atRiskHabits(habits).length > 0 ? (
+        <View style={styles.riskBanner}>
+          <Text style={styles.riskBannerText}>{reminderBody(habits)}</Text>
+        </View>
+      ) : null}
+
       <View style={styles.progressCard}>
         <View style={styles.progressRow}>
           <Text style={styles.progressPct}>{dailyPercentage}%</Text>
@@ -110,6 +117,8 @@ const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: theme.colors.bg },
   content: { padding: theme.spacing(2), paddingBottom: theme.spacing(6) },
   h1: { color: theme.colors.text, fontSize: 32, fontWeight: '800', marginBottom: theme.spacing(2) },
+  riskBanner: { backgroundColor: '#3a1d1d', borderRadius: theme.radius.md, padding: theme.spacing(1.5), marginBottom: theme.spacing(1.5), borderWidth: 1, borderColor: theme.colors.danger },
+  riskBannerText: { color: '#fecaca', fontSize: 14, fontWeight: '700' },
   progressCard: { backgroundColor: theme.colors.surface, borderRadius: theme.radius.lg, padding: theme.spacing(2), marginBottom: theme.spacing(2), borderWidth: 1, borderColor: theme.colors.border },
   progressRow: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: theme.spacing(1.5) },
   progressPct: { color: theme.colors.text, fontSize: 28, fontWeight: '800' },
